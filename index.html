@@ -1,98 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Career Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>AI Career Dashboard</h1>
-    <button id="toggle-theme">Toggle Theme</button>
-  </header>
+  <button id="theme-toggle">Toggle Theme</button>
 
-  <main>
-    <section class="form-section">
-      <form id="course-form">
-        <label for="courseInput">Enter Your Course or Learning Goal:</label>
-        <input type="text" id="courseInput" name="course" required>
-        <button type="submit">Submit</button>
-      </form>
-    </section>
+  <h1>AI Career Dashboard</h1>
+  
+  <form id="career-form">
+    <label>Enter your field of interest in AI:</label><br>
+    <input type="text" id="interest" required><br><br>
+    <button type="submit">Get Career Path</button>
+  </form>
 
-    <section id="response-section" class="hidden">
-      <h2>Personalized AI Guidance</h2>
-      <div id="response-box" class="response-box"></div>
-    </section>
-  </main>
+  <div id="output"></div>
 
-  <footer>
-    <p>Created by Jyothiraditya | AI-Powered Career Assistant</p>
-  </footer>
-
-  <script>
-    // Dark mode toggle
-    const toggleBtn = document.getElementById("toggle-theme");
-    const html = document.documentElement;
-
-    function setTheme(theme) {
-      html.setAttribute("data-theme", theme);
-      localStorage.setItem("theme", theme);
-    }
-
-    // Load saved theme
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    setTheme(savedTheme);
-
-    toggleBtn.addEventListener("click", () => {
-      const current = html.getAttribute("data-theme");
-      const newTheme = current === "dark" ? "light" : "dark";
-      setTheme(newTheme);
-    });
-
-    // AI API Integration
-    const form = document.getElementById("course-form");
-    const courseInput = document.getElementById("courseInput");
-    const responseSection = document.getElementById("response-section");
-    const responseBox = document.getElementById("response-box");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const userInput = courseInput.value.trim();
-      if (!userInput) return;
-
-      responseBox.innerHTML = "<p><em>Generating insights...</em></p>";
-      responseSection.classList.remove("hidden");
-
-      try {
-        const prompt = `Act as an AI Career Mentor. Based on the input "${userInput}", give a brief roadmap that includes:
-        1. Top tools or platforms to learn from
-        2. Mindset and approach to follow
-        3. A simple project idea for practice
-        Keep it concise, professional, and useful for a college-level learner.`;
-
-        const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer YOUR_API_KEY" // Replace with actual key securely in production
-          },
-          body: JSON.stringify({
-            model: "openchat/openchat-3.5",
-            messages: [{ role: "user", content: prompt }],
-            temperature: 0.7
-          })
-        });
-
-        const data = await res.json();
-        const reply = data.choices?.[0]?.message?.content || "No response. Try again.";
-        responseBox.innerHTML = `<p>${reply.replace(/\n/g, "<br>")}</p>`;
-      } catch (error) {
-        console.error(error);
-        responseBox.innerHTML = "<p><strong>Error:</strong> Something went wrong. Please try again later.</p>";
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

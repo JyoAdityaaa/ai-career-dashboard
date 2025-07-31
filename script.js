@@ -15,7 +15,7 @@ document.getElementById("career-form").addEventListener("submit", async (e) => {
     const response = await fetch("https://api.openrouter.ai/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer YOUR_API_KEY_HERE",
+        "Authorization": "Bearer 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",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -34,11 +34,11 @@ document.getElementById("career-form").addEventListener("submit", async (e) => {
     output.innerHTML = `<pre>${result}</pre>`;
 
     // Optional: Send to Google Sheets using automation
-    // fetch("YOUR_MAKE_WEBHOOK_URL", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ interest, response: result })
-    // });
+     fetch("https://hook.us2.make.com/p44rel76jfuuaplrgbbrp78kpmd1wcvh", {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify({ interest, response: result })
+     });
 
   } catch (err) {
     console.error(err);
